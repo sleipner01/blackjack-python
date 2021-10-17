@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 #Global variables
 blackjackScore = 21
@@ -42,12 +42,12 @@ def blackjack():
     
 def playerHand():
     global playerHand
-    playerHand = [cards[random.randint(0,12)], cards[random.randint(0,12)]]
+    playerHand = [cards[randint(0,12)], cards[randint(0,12)]]
 
     
 def dealerHand():
     global dealerHand
-    dealerHand = [cards[random.randint(0,12)], cards[random.randint(0,12)]]
+    dealerHand = [cards[randint(0,12)], cards[randint(0,12)]]
 
     
 def checkPlayerHand():
@@ -89,20 +89,22 @@ def handTotal(hand):
 def drawCard():
     answer = 'Y'
     while totalPlayerHand < blackjackScore and answer == 'Y':
-        # Dealer
-        if handTotal('dealerHand') >= dealerThreshold:
-            dealerHand.append(cards[random.randint(0,12)])
-        print(dealerHand)
-        
         # Player
         question = str(input('Do you want another card? (Y/N): ')).upper()
         if question == 'Y':
-            playerHand.append(cards[random.randint(0,12)])
+            playerHand.append(cards[randint(0,12)])
             checkPlayerHand()
+            
+            # Dealer
+            if handTotal('dealerHand') <= dealerThreshold:
+                dealerHand.append(cards[randint(0,12)])
+                checkDealerHand()
+            print(dealerHand)
         elif question == 'N':
             answer = 'N'
         else:
             print('You have to answer with "Y" og "N"')
+        
 
     
 def checkBlackjack(origin):
