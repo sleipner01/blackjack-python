@@ -2,16 +2,18 @@ import random
 
 #Global variables
 blackjackScore = 21
+dealerThreshold = 17
 cards = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
 dealerHand = []
 totalDealerHand = 0
 playerHand = []
 totalPlayerHand = 0
-finish = 'N'
+finishGame = 'N'
 
 
 #Gamecontrol
 def blackjack():
+    print('---------------------')
     print("Welcome to Blackjack!")
     
     #Gives the dealer cards
@@ -32,7 +34,7 @@ def blackjack():
     
     #As long as noone have gotten blackjack
     #Checks if user wants draw a card
-    drawCard()
+    if finish != 'Y': drawCard()
 
     #See who won
     finish()
@@ -86,7 +88,13 @@ def handTotal(hand):
     
 def drawCard():
     answer = 'Y'
-    while totalPlayerHand < 21 and answer == 'Y':
+    while totalPlayerHand < blackjackScore and answer == 'Y':
+        # Dealer
+        if handTotal('dealerHand') >= dealerThreshold:
+            dealerHand.append(cards[random.randint(0,12)])
+        print(dealerHand)
+        
+        # Player
         question = str(input('Do you want another card? (Y/N): ')).upper()
         if question == 'Y':
             playerHand.append(cards[random.randint(0,12)])
@@ -99,14 +107,17 @@ def drawCard():
     
 def checkBlackjack(origin):
     #If the first two cards are blackjack
+    global finishGame
     if origin == 'player':
         if handTotal('playerHand') == blackjackScore:
             print('You have blackjack!')
+            finishGame = 'Y'
         else:
             return
     if origin == 'dealer':        
         if handTotal('dealerHand') == blackjackScore:
             print('The dealer has blackjack!')
+            finishGame = 'Y'
         else:
             return
 
