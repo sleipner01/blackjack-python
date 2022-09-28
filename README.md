@@ -1,3 +1,3 @@
 # Blackjack
 
-Just small project. Not really blackjack. I'll make a better version
+Just small project from the course TDT4109 at NTNU.
